@@ -733,6 +733,29 @@ Session
 
 The session information is in its own document: :doc:`/components/http_foundation/sessions`.
 
+UrlHelper
+-------
+Generating absolute (and relative) URLs for a given path is a common need in lots of applications. In Twig templates this is trivial thanks to the absolute_url() and relative_path() functions. The same funcionality can be found in the :class:`Symfony\\Component\\HttpFoundation\\UrlHelper` class, which can be injected as a service anywhere in your application. This class provides two public methods called getAbsoluteUrl() and getRelativePath()::
+
+    Use Symfony\Component\HttpFoundation\UrlHelper;
+
+    class UserApiNormalizer
+    {
+        private UrlHelper $urlHelper;
+
+        public function __construct(UrlHelper $urlHelper)
+        {
+            $this->urlHelper = $urlHelper;
+        }
+
+        public function normalize($user, $format = null, array $context = [])
+        {
+            return [
+                'avatar' => $this->urlHelper->getAbsoluteUrl($user->avatar()->path()),
+            ];
+        }
+    }
+
 Safe Content Preference
 -----------------------
 
